@@ -6,7 +6,7 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 20:42:01 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/07/02 20:04:22 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/04 17:37:23 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,7 @@ void	first_child(t_pipex pipex, char **av, char **envp)
 	{
 		close (pipex.pipe[1]);
 		child_free(&pipex);
-		if (av[2][0] == '\0' || av[2][0] <= 32)
-			msg("Empty");
-		else
-			msg(av[2]);
+		msg(av[2]);
 		msg(ERR_CMD);
 		exit(127);
 	}
@@ -147,8 +144,6 @@ void	second_child(t_pipex pipex, char **av, char **envp)
 	{
 		close (pipex.pipe[0]);
 		child_free(&pipex);
-		if (av[3][0] == '\0' || av[3][0] <= 32)
-			msg("Empty");
 		msg(av[3]);
 		msg(ERR_CMD);
 		exit(127);

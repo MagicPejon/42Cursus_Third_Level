@@ -6,7 +6,7 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 14:39:40 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/07/02 19:55:55 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/04 17:41:05 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 # define ERR_INFILE "Infile Error"
 # define ERR_OUTFILE "Outfile Error"
-# define ERR_INPUT "Invalid number of arguments\n\
+# define ERR_INPUT "Invalid number of arguments or empty commands\n\
 Remember: < file1 cmd1 | cmd2 > file2"
 # define ERR_PIPE "Pipe Error\n"
 # define ERR_CMD " command argument not found\n"
