@@ -6,11 +6,39 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 14:40:06 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/06/27 12:46:10 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/02 17:44:37 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+/*DESCRIPTION
+
+Checks if the arguments given are correct before going through the program
+
+PARAMETERS
+
+int ac: number of arguments
+char **av: 2D array of arguments given within the command line
+*/
+int	check_arguments(int ac, char **av)
+{
+	int	i;
+
+	i = 0;
+	if (ac != 5)
+		return (1);
+	while (av[2][i] == ' ')
+		i++;
+	if (av[2][i] == '\0')
+		return (1);
+	i = 0;
+	while (av[3][i] == ' ')
+		i++;
+	if (av[3][i] == '\0')
+		return (1);
+	return (0);
+}
 
 /*DESCRIPTION
 
@@ -89,16 +117,16 @@ int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
 
-	if (ac != 5)
+	if (check_arguments(ac, av))
 		return (msg(ERR_INPUT));
-	pipex.outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	pipex.outfile = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (pipex.outfile < 0)
-		msg_error(av[ac - 1]);
+		msg_error(av[ac - 1], &pipex);
 	pipex.infile = open(av[1], O_RDONLY);
 	if (pipex.infile < 0)
-		msg_error(av[1]);
+		msg_error(av[1], &pipex);
 	if (pipe(pipex.pipe) < 0)
-		msg_error(ERR_PIPE);
+		msg_error(ERR_PIPE, &pipex);
 	pipex.paths = find_path(envp);
 	pipex.cmd_paths = ft_split(pipex.paths, ':');
 	pipex.pid1 = fork();

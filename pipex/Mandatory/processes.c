@@ -6,11 +6,29 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 20:42:01 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/06/27 12:50:46 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/02 20:04:22 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	check_doublequotes(char *command)
+{
+	int	i;
+
+	i = 0;
+	while (command[i])
+	{
+		if (command[i] == '"')
+		{
+			i++;
+			if (ft_strchr(command + i, '"'))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 /*DESCRIPTION
 
@@ -33,13 +51,21 @@ static	char	*retrieve_cmd(char **paths, char *cmd)
 	char	*temp;
 	char	*bash_command;
 
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
 	while (*paths)
 	{
+		if (!cmd)
+			break ;
 		temp = ft_strjoin(*paths, "/");
 		bash_command = ft_strjoin(temp, cmd);
-		if (access(bash_command, F_OK) == 0)
+		if (access(bash_command, X_OK) == 0)
+		{
+			free (temp);
 			return (bash_command);
+		}
 		free (bash_command);
+		free (temp);
 		paths++;
 	}
 	return (NULL);
@@ -69,12 +95,19 @@ void	first_child(t_pipex pipex, char **av, char **envp)
 	dup2(pipex.pipe[1], 1);
 	close(pipex.pipe[0]);
 	dup2(pipex.infile, 0);
-	pipex.cmd_args = ft_split(av[2], ' ');
+	if (check_doublequotes(av[2]))
+		pipex.cmd_args = pipex_split(av[2], ' ');
+	else
+		pipex.cmd_args = ft_split(av[2], ' ');
 	pipex.cmd = retrieve_cmd(pipex.cmd_paths, pipex.cmd_args[0]);
 	if (!pipex.cmd)
 	{
+		close (pipex.pipe[1]);
 		child_free(&pipex);
-		msg(av[2]);
+		if (av[2][0] == '\0' || av[2][0] <= 32)
+			msg("Empty");
+		else
+			msg(av[2]);
 		msg(ERR_CMD);
 		exit(127);
 	}
@@ -105,11 +138,17 @@ void	second_child(t_pipex pipex, char **av, char **envp)
 	dup2(pipex.pipe[0], 0);
 	close(pipex.pipe[1]);
 	dup2(pipex.outfile, 1);
-	pipex.cmd_args = ft_split(av[3], ' ');
+	if (check_doublequotes(av[3]))
+		pipex.cmd_args = pipex_split(av[3], ' ');
+	else
+		pipex.cmd_args = ft_split(av[3], ' ');
 	pipex.cmd = retrieve_cmd(pipex.cmd_paths, pipex.cmd_args[0]);
 	if (!pipex.cmd)
 	{
+		close (pipex.pipe[0]);
 		child_free(&pipex);
+		if (av[3][0] == '\0' || av[3][0] <= 32)
+			msg("Empty");
 		msg(av[3]);
 		msg(ERR_CMD);
 		exit(127);

@@ -6,7 +6,7 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 14:39:40 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/06/27 13:04:35 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/02 19:55:55 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,24 @@ typedef struct s_pipex
 }t_pipex;
 
 /* pipex.c */
+int		check_arguments(int ac, char **av);
 char	*find_path(char **envp);
 void	close_pipes(t_pipex *pipex);
 
 /* error_free.c */
 int		msg(char *err);
-void	msg_error(char *err);
+void	msg_error(char *err, t_pipex *pipex);
 void	parent_free(t_pipex *pipex);
 void	child_free(t_pipex *pipex);
 
 /* processes.c */
+int		check_doublequotes(char *command);
 void	first_child(t_pipex pipex, char **av, char **envp);
 void	second_child(t_pipex pipex, char **av, char **envp);
+
+/* pipex_split.c */
+int		pipex_getwordcount(const char *s, char c);
+void	pipex_assigns(const char *s, char **str, char c, int count);
+char	**pipex_split(const char *s, char c);
 
 #endif
