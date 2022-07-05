@@ -6,12 +6,21 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 19:00:36 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/07/04 16:52:38 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/05 17:07:37 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/*DESCRIPTION
+
+Function to get the number of words
+
+PARAMETERS
+
+const char *s: string to be splitted.
+char c: the delimiter used for the split.
+*/
 int	pipex_getwordcount(const char *s, char c)
 {
 	int	i;
@@ -40,6 +49,17 @@ int	pipex_getwordcount(const char *s, char c)
 	return (j);
 }
 
+/*DESCRIPTION
+
+the assigning portion of pipex_split to assign characters unto a malloc'ed string
+
+PARAMETERS
+
+const char *s: string to be splitted.
+char **str: output of the split string.
+char c: the delimiter.
+int	count: number of words (or sentences) within the string *s.
+*/
 void	pipex_assigns(const char *s, char **str, char c, int count)
 {
 	int	i;
@@ -67,6 +87,16 @@ void	pipex_assigns(const char *s, char **str, char c, int count)
 	str[i] = 0;
 }
 
+/*DESCRIPTION
+
+Splits the 1D argument of a command to several arguments, skipping any content
+within double quotes to ensure sentences can be passed as arguments.
+
+PARAMETERS
+
+const char *s: string to be splitted.
+char c: the delimiter used for the split.
+*/
 char	**pipex_split(const char *s, char c)
 {
 	char	**str;

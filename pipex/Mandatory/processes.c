@@ -6,12 +6,21 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 20:42:01 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/07/04 17:37:23 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:52:22 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/*DESCRIPTION
+
+Checks if the argument contains a double quotes to hold a sentence for certain
+commands.
+
+PARAMETERS
+
+char *command: the argument of a command.
+*/
 int	check_doublequotes(char *command)
 {
 	int	i;
@@ -39,7 +48,7 @@ command given by the command line (av).
 PARAMETERS
 
 char **paths: a 2D array containing the paths towards the commands 
-stored in the computer
+stored in the computer.
 char *cmd: command retrieved from the arguments stated in the command line.
 
 NOTE
