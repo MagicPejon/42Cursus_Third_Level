@@ -6,7 +6,7 @@
 /*   By: amalbrei <amalbrei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 19:00:36 by amalbrei          #+#    #+#             */
-/*   Updated: 2022/07/05 17:07:37 by amalbrei         ###   ########.fr       */
+/*   Updated: 2022/07/06 16:27:15 by amalbrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	pipex_getwordcount(const char *s, char c)
 		if (s[i + 1] == '"')
 		{
 			i += 2;
-			while (s[i] != '"')
+			while (&s[i] != ft_strrchr(s, '"'))
 				i++;
 		}
 		else if (s[i] == c)
@@ -76,7 +76,7 @@ void	pipex_assigns(const char *s, char **str, char c, int count)
 			j++;
 		start_index = j;
 		if (s[j - 1] == '"')
-			while (s[j] != '"')
+			while (&s[j] != ft_strrchr(s, '"'))
 				j++;
 		else
 			while (s[j] != c && s[j] != '\0')
